@@ -23,7 +23,10 @@ import shlex
 import warnings
 import logging
 import dataclasses
-import importlib.resources
+try:
+    from importlib.resources import files as resource_files
+except (ModuleNotFoundError, ImportError):
+    from importlib_resources import files as resource_files
 
 from PIL import Image
 from pathlib import Path
@@ -45,7 +48,7 @@ logger = logging.getLogger('kraken')
 install(suppress=[click])
 
 APP_NAME = 'kraken'
-SEGMENTATION_DEFAULT_MODEL = importlib.resources.files(APP_NAME).joinpath('blla.mlmodel')
+SEGMENTATION_DEFAULT_MODEL = resource_files(APP_NAME).joinpath('blla.mlmodel')
 DEFAULT_MODEL = ['en_best.mlmodel']
 
 # raise default max image size to 20k * 20k pixels
